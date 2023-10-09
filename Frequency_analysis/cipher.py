@@ -29,7 +29,7 @@ class Cipher:
         most_common_plain_char = self.cipher_text_char_num(plaintext)
         index_sum = [y[0] for y in most_common_plain_char].index('E') + [y[0] for y in most_common_plain_char].index('T')
         if index_sum < 8:
-            return print(self.plaintext.title())
+            return print(self.plaintext.capitalize())
         else:
             self.dict_shift += 1
             self.shift_find(cipher_text)
