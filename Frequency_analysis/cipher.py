@@ -5,6 +5,7 @@ class Cipher:
         self.e_ascii = 69
         self.plaintext = ""
         self.dict_shift = 1
+
     def cipher_text_char_num(self, cipher_text):
         """Function for calculation most frequent characters in given string. Takes cipher text as an argument.
         Return sorted dictionary of characters and corresponded number of appearance"""
@@ -31,9 +32,10 @@ class Cipher:
         plaintext = self.from_cipher_to_plain(cipher_text)
         most_common_plain_char = self.cipher_text_char_num(plaintext)
         # Checking frequency is in correct range (not 100% correlation possible with initial frequency)
-        index_sum = [y[0] for y in most_common_plain_char].index('E') + [y[0] for y in most_common_plain_char].index('T')
+        index_sum = [y[0] for y in most_common_plain_char].index('E') + [y[0] for y in most_common_plain_char].index(
+            'T')
         if index_sum < 8:
-            return print(self.plaintext.capitalize())
+            return self.plaintext.capitalize()
         else:
             self.dict_shift += 1
             self.shift_find(cipher_text)
@@ -51,6 +53,3 @@ class Cipher:
             else:
                 self.plaintext += chr(ord(i))
         return self.plaintext
-
-
-
