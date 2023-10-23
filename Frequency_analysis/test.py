@@ -7,14 +7,14 @@ class FreqAnalysisCracker(unittest.TestCase):
     def test_1(self):
         cipher = Cipher()
         cipher_text = "Khoor Zruog ! Frqjudwxodwlrqv, brx kdyh vxffhvvixoob ghfubswhg ph ! Kdyh ixq zlwk wklv sxccoh"
-        self.assertEqual(cipher.shift_find(cipher_text),"Hello world ! congratulations, you have successfully decrypted me ! have fun with this puzzle")
+        expected_text = "Hello world ! congratulations, you have successfully decrypted me ! have fun with this puzzle"
+        self.assertEqual(cipher.shift_find(cipher_text),expected_text)
 
     def test_2(self):
         cipher = Cipher()
-        cipher_text = ("Iye mkx pyyv kvv yp dro zoyzvo cywo yp dro dswo, kxn cywo yp dro zoyzvo kvv yp dro dswo, "
-                       "led iye mkx'd pyyv kvv yp dro zoyzvo kvv yp dro dswo.")
-        self.assertEqual(cipher.shift_find(cipher_text),"You can fool all of the people some of the time, "
-                                                        "and some of the people all of the time, but you can't fool all of the people all of the time.")
+        cipher_text = "Iye mkx pyyv kvv yp dro zoyzvo cywo yp dro dswo, kxn cywo yp dro zoyzvo kvv yp dro dswo, led iye mkx'd pyyv kvv yp dro zoyzvo kvv yp dro dswo."
+        expected_text = "You can fool all of the people some of the time, and some of the people all of the time, but you can't fool all of the people all of the time."
+        self.assertEqual(cipher.shift_find(cipher_text), expected_text)
 
     def test_3(self):
         cipher = Cipher()
