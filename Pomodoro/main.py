@@ -74,6 +74,7 @@ ui_label = tkinter.Label(text="Timer", bg=YELLOW, fg=GREEN, font=(FONT_NAME, 30,
 ui_label.grid(column=1, row=0)
 canvas = tkinter.Canvas(width=200, height=224, bg=YELLOW, highlightthickness=0)
 tomato_img = tkinter.PhotoImage(file="tomato.png")
+
 # Canvas
 canvas.create_image(100, 112, image=tomato_img)
 timer_text = canvas.create_text(100, 130, text=f"00:00", fill="white", font=(FONT_NAME, 35, "bold"))
