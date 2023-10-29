@@ -2,6 +2,21 @@ import tkinter
 from tkinter import messagebox
 import secrets
 import pyperclip
+import json
+
+
+# ---------------------------- DATA SEARCHING ------------------------------- #
+def password_search():
+    website = website_input.get()
+    with open("data.json") as file:
+        data = json.load(file)
+    try:
+        password = data[website]["password"]
+    except KeyError:
+        messagebox.showerror(title="Error", message="No entry found")
+    else:
+        email = data[website]["email"]
+        messagebox.showinfo(title=f"{website}", message=f"Email: {email}\n Password: {password}")
 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
@@ -17,6 +32,7 @@ def add_data():
     website = website_input.get()
     email = email_input.get()
     password = password_input.get()
+    new_data = {website: {"email": email, "password": password}}
 
     if len(website) == 0 or len(email) == 0 or len(password) == 0:
         messagebox.showerror(title="Error", message="Please enter a valid value")
@@ -26,8 +42,25 @@ def add_data():
                                                               f"\nEmail: {email} \nPassword: {password}\n"
                                                               f"Is it ok to save?")
         if is_ok:
-            with open("data.txt", 'a') as file:
-                file.write(f"{website} | {email} | {password}\n")
+            # Possible place where error can occur
+            try:
+                with open("data.json", 'r') as file:
+                    data = json.load(file)
+
+            # Actions to be taken if error occurred (create new file)
+            except FileNotFoundError:
+                with open("data.json", 'w') as file:
+                    json.dump(new_data, file, indent=4)
+
+            # Actions to be taken if NO error occurred (update data)
+            else:
+                data.update(new_data)
+
+                with open("data.json", 'w') as file:
+                    json.dump(data, file, indent=4)
+
+            # Actions to be taken no matter error occurred or not (clear entry lines)
+            finally:
                 website_input.delete(0, "end")
                 password_input.delete(0, "end")
                 website_input.focus()
@@ -58,14 +91,16 @@ generate_button = tkinter.Button(text="Generate Password", command=generate)
 generate_button.grid(row=3, column=2)
 add_button = tkinter.Button(text="Add", command=add_data, width=43)
 add_button.grid(row=4, column=1, columnspan=2)
+search_button = tkinter.Button(text="Search", command=password_search, width=14)
+search_button.grid(row=1, column=2)
 
 # Input bar
-website_input = tkinter.Entry(width=51)
-website_input.grid(row=1, column=1, columnspan=2)
+website_input = tkinter.Entry(width=33)
+website_input.grid(row=1, column=1)
 website_input.focus()
 email_input = tkinter.Entry(width=51)
 email_input.grid(row=2, column=1, columnspan=2)
-email_input.insert(0, "fomavip1998@gmai.com")
+email_input.insert(0, "bohdan@gmail.com")
 password_input = tkinter.Entry(width=33)
 password_input.grid(row=3, column=1)
 window.mainloop()
