@@ -1,27 +1,42 @@
-def xor_hex_strings(hex_str1, hex_str2):
-    # Convert hexadecimal strings to integers
-    int1 = int(hex_str1, 16)
-    int2 = int(hex_str2, 16)
-    print(int1)
-    # XOR the integers
-    result_int = int1 ^ int2
-    print(result_int)
-    # Convert the result back to a hexadecimal string
-    result_hex = format(result_int, '02X')
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.fft import fft, fftfreq
 
-    return result_hex
+# Задані параметри
+amplitude_carrier = 6
+frequency_carrier = 35
+frequency_modulating = 3.5
+frequency_deviation = 1.65
 
+# Часовий діапазон
+t = np.linspace(0, 1, 1000, endpoint=False)
 
-# Input: Intercepted messages
-message1 = "391813c092a2d5ac9acb705dfe41be3df08de67d1145cbcc3f"
-message2 = "03adeae2c8c2f2336c8a8d312733c2456e76e0b2d9068adc3f"
-message3 = "72d0954e354045f09461dc4c911d0b58ff8963efb12c34303f"
+# 1. Отримання аналітичного виразу для ЧМ сигналу та побудова графіку
+modulated_signal = amplitude_carrier * np.cos(2 * np.pi * frequency_carrier * t +
+                                              frequency_deviation * np.sin(2 * np.pi * frequency_modulating * t))
 
-# Break the XOR cipher
-clear_text_hex = xor_hex_strings(xor_hex_strings(message1, message2), message3)
-print(clear_text_hex)
-# Convert the clear text from hexadecimal to ASCII
-clear_text = bytes.fromhex(clear_text_hex).decode('ascii')
+plt.figure(figsize=(10, 4))
+plt.plot(t, modulated_signal, label='ЧМ сигнал')
+plt.title('ЧМ сигнал в часовій області')
+plt.xlabel('Час')
+plt.ylabel('Амплітуда')
+plt.legend()
+plt.show()
 
-# Output the clear text
-print(clear_text)
+# 2. Побудова амплітудного спектру ЧМ сигналу
+N = len(t)
+signal_fft = fft(modulated_signal)
+freq = fftfreq(N, t[1] - t[0])
+
+plt.figure(figsize=(10, 4))
+plt.plot(freq, np.abs(signal_fft))
+plt.title('Амплітудний спектр ЧМ сигналу')
+plt.xlabel('Частота')
+plt.ylabel('Амплітуда')
+plt.grid(True)
+plt.show()
+
+# 3. Визначення практичної ширини спектру ЧМ сигналу
+# Для ЧМ сигналу практична ширина спектру зазвичай визначається девіацією частоти
+practical_bandwidth = 2 * frequency_deviation
+print(f'Практична ширина спектру ЧМ сигналу: {practical_bandwidth} Гц')
