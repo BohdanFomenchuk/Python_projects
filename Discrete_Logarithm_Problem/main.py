@@ -12,29 +12,27 @@
 # The rest of this protocol is not explained to avoid overload, but it can be found on
 # https://en.wikipedia.org/wiki/ElGamal_encryption
 
-import math
+import time
 
-G = 654
-H = 4547
-Q = 11087
-
+G = 49999999961
+H = 42
+Q = 49999999967
+start = time.time()
 
 def crack(G, H, Q):
     # Baby-Step Giant-Step algorithm
     m = int(Q ** 0.5) + 1
     baby_steps = {}
-    print(m)
     # Precompute the baby steps
     for j in range(m):
         baby_steps[pow(G, j, Q)] = j
-        print(baby_steps)
     # Giant step: G^(-m)
     gm = pow(G, -m, Q)
     print(gm)
     # Search for a match
     for i in range(m):
         target = (H * pow(gm, i, Q)) % Q
-        print(target)
+
         if target in baby_steps:
             return i * m + baby_steps[target]
 
@@ -46,7 +44,8 @@ def crack(G, H, Q):
 
 # Perform the attack
 X = crack(G, H, Q)
+end = time.time()
 if X is not None:
-    print(f"Found X: {X}")
+    print(f"Found X: {X}, Execution time = {end-start}")
 else:
     print("No X found")
