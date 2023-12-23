@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../FuzzyLogic/.idea/FuzzyLogic.iml" filepath="$PROJECT_DIR$/../FuzzyLogic/.idea/FuzzyLogic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Entropy.iml" filepath="$PROJECT_DIR$/.idea/Entropy.iml" />
     </modules>
   </component>
 </project>
