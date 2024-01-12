@@ -1,7 +1,7 @@
 import requests
 
 
-api_key = "45f2ee174cb620729ea35d9080c735f7"
+api_key = "Your_API_Key"
 weather_params = {
     "lat": 50.446336,
     "lon": 30.415258,
